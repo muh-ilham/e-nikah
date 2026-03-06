@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { sendEmail, getOrderApprovalTemplate, getOrderRevisionTemplate, getOrderRejectionTemplate } from "@/lib/mail";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
-
-const prisma = new PrismaClient();
 
 export async function PUT(
     request: Request,

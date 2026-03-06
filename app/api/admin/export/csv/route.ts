@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { format } from "date-fns";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
     try {
@@ -14,8 +12,7 @@ export async function GET() {
                             include: { pangkat: true, satuan: true, jabatan: true }
                         }
                     }
-                },
-                calonPasangan: true
+                }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -44,8 +41,8 @@ export async function GET() {
                 p.user?.nrp || "-",
                 prajurit?.pangkat?.nama || "-",
                 prajurit?.satuan?.nama || "-",
-                p.calonPasangan?.namaLengkap || "-",
-                p.calonPasangan?.nik || "-"
+                p.namaCalon || "-",
+                "-" // NIK Pasangan not directly in schema
             ].map(String).map(s => `"${s.replace(/"/g, '""')}"`).join(",");
         });
 

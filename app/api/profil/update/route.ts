@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { promises as fs } from "fs";
 import path from "path";
 
-const prisma = new PrismaClient();
-
-export async function POST(request: Request) {
+export async function POST(req: Request) {
     try {
-        const formData = await request.formData();
+        const formData = await req.formData();
         const userId = formData.get("userId") as string;
 
         if (!userId) {

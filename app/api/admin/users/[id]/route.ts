@@ -1,7 +1,38 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+export async function GET(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
+    try {
+        const { id } = params;
+        // The original instruction had `const body = await req.json();` which is incorrect for GET.
+        // I will omit this line as it's not part of the core instruction and is syntactically incorrect for GET.
+        // The instruction also had `{{ ... }}` indicating an incomplete body.
+        // I will just add the try-catch block and the id extraction.
+        const user = await prisma.user.findUnique({
+            where: { id },
+            include: {
+                profilPrajurit: {
+                    include: {
+                        pangkat: true,
+                        satuan: true,
+                        jabatan: true,
+                    }
+                }
+            }
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        return NextResponse.json(user);
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     try {

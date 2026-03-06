@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { sendEmail, getAccountApprovalTemplate, getAccountRejectionTemplate } from "@/lib/mail";
+import prisma from "@/lib/prisma";
 
-const prisma = new PrismaClient();
-
-export async function POST(request: Request, context: any) {
+export async function POST(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
     try {
-        const { params } = context;
         const userId = params.id;
 
         const { status } = await request.json(); // should be 'approved' or 'rejected'

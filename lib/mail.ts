@@ -1,7 +1,5 @@
 import nodemailer from 'nodemailer';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from './prisma';
 
 /**
  * Fungsi untuk mengirim email notifikasi ke pengguna
