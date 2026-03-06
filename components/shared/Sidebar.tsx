@@ -35,6 +35,11 @@ const Sidebar = ({ role, agamaLabel, onItemClick }: SidebarProps) => {
     const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
     useEffect(() => {
+        // Force Vercel cache break
+        console.log("Rendering Sidebar for role:", role);
+    }, [role]);
+
+    useEffect(() => {
         const loadSettings = () => {
             fetch("/api/identitas-instansi?t=" + Date.now(), { cache: 'no-store' })
                 .then((res) => res.json())
