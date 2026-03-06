@@ -28,44 +28,52 @@ export async function GET(
 
         switch (type) {
             case 'pangkat':
-                total = await prisma.masterPangkat.count({ where });
-                data = await prisma.masterPangkat.findMany({
-                    where,
-                    orderBy: { nama: 'asc' },
-                    skip,
-                    take: limit
-                });
+                [total, data] = await Promise.all([
+                    prisma.masterPangkat.count({ where }),
+                    prisma.masterPangkat.findMany({
+                        where,
+                        orderBy: { nama: 'asc' },
+                        skip,
+                        take: limit
+                    })
+                ]);
                 break;
             case 'satuan':
-                total = await prisma.masterSatuan.count({ where });
-                data = await prisma.masterSatuan.findMany({
-                    where,
-                    orderBy: { nama: 'asc' },
-                    skip,
-                    take: limit
-                });
+                [total, data] = await Promise.all([
+                    prisma.masterSatuan.count({ where }),
+                    prisma.masterSatuan.findMany({
+                        where,
+                        orderBy: { nama: 'asc' },
+                        skip,
+                        take: limit
+                    })
+                ]);
                 break;
             case 'jabatan':
-                total = await prisma.masterJabatan.count({ where });
-                data = await prisma.masterJabatan.findMany({
-                    where,
-                    orderBy: { nama: 'asc' },
-                    skip,
-                    take: limit
-                });
+                [total, data] = await Promise.all([
+                    prisma.masterJabatan.count({ where }),
+                    prisma.masterJabatan.findMany({
+                        where,
+                        orderBy: { nama: 'asc' },
+                        skip,
+                        take: limit
+                    })
+                ]);
                 break;
             case 'berkas':
                 if (kategori && kategori !== 'semua') where.kategori = kategori;
                 if (jenisPengajuan && jenisPengajuan !== 'semua') where.jenisPengajuan = jenisPengajuan;
                 if (agama && agama !== 'semua') where.agama = agama;
 
-                total = await prisma.masterBerkas.count({ where });
-                data = await prisma.masterBerkas.findMany({
-                    where,
-                    orderBy: { urut: 'asc' },
-                    skip,
-                    take: limit
-                });
+                [total, data] = await Promise.all([
+                    prisma.masterBerkas.count({ where }),
+                    prisma.masterBerkas.findMany({
+                        where,
+                        orderBy: { urut: 'asc' },
+                        skip,
+                        take: limit
+                    })
+                ]);
                 break;
             default:
                 return NextResponse.json({ error: "Tipe master data tidak valid" }, { status: 400 });
