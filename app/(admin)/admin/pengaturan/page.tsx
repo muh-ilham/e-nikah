@@ -84,7 +84,7 @@ export default function PengaturanPage() {
         setSuccess(false);
         try {
             const response = await fetch("/api/admin/settings", {
-                method: "PUT",
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(settings)
             });
