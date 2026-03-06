@@ -47,6 +47,7 @@ export default function AdminAgamaVerifikasiPage() {
     // Detail / Modal State
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [detailLoading, setDetailLoading] = useState(false);
     const [verifLoading, setVerifLoading] = useState(false);
 
     // Verif Form
@@ -90,6 +91,7 @@ export default function AdminAgamaVerifikasiPage() {
     const handleOpenDetail = async (item: any) => {
         setSelectedItem(item);
         setIsDetailOpen(true);
+        setDetailLoading(true);
         // Fetch full data (including Base64) on demand
         try {
             const res = await fetch(`/api/admin/pengajuan/${item.id}?t=${Date.now()}`);
@@ -105,6 +107,8 @@ export default function AdminAgamaVerifikasiPage() {
         } catch (error) {
             console.error("Fetch detail error:", error);
             toast.error("Gagal mengambil detail berkas");
+        } finally {
+            setDetailLoading(false);
         }
     };
 
@@ -411,25 +415,26 @@ export default function AdminAgamaVerifikasiPage() {
                                             {selectedItem.berkas?.map((b: any) => (
                                                 <div
                                                     key={b.id}
-                                                    className="flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-white group hover:border-primary/30 transition-all cursor-pointer"
-                                                    onClick={() => handleViewFile(b.fileUrl)}
+                                                    className={`flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-white group transition-all ${detailLoading ? 'opacity-60 cursor-wait' : 'hover:border-primary/30 cursor-pointer'}`}
+                                                    onClick={() => !detailLoading && handleViewFile(b.fileUrl)}
                                                 >
                                                     <div className="flex items-center gap-3 overflow-hidden">
-                                                        <div className="w-8 h-8 rounded bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors">
-                                                            <FileText className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
+                                                        <div className={`w-8 h-8 rounded bg-slate-100 flex items-center justify-center shrink-0 ${!detailLoading && 'group-hover:bg-primary/10 transition-colors'}`}>
+                                                            {detailLoading ? <Loader2 className="w-4 h-4 text-slate-400 animate-spin" /> : <FileText className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />}
                                                         </div>
                                                         <div className="overflow-hidden">
-                                                            <p className="text-[11px] font-bold text-slate-700 truncate group-hover:text-primary transition-colors">{b.masterBerkas?.nama}</p>
-                                                            <p className="text-[9px] text-emerald-600 font-bold uppercase">{b.status}</p>
+                                                            <p className={`text-[11px] font-bold text-slate-700 truncate ${!detailLoading && 'group-hover:text-primary transition-colors'}`}>{b.masterBerkas?.nama}</p>
+                                                            <p className="text-[9px] text-emerald-600 font-bold uppercase">{detailLoading ? 'MENGUNDUH...' : b.status}</p>
                                                         </div>
                                                     </div>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
+                                                        disabled={detailLoading}
                                                         className="h-8 w-8 rounded-full text-slate-400 group-hover:text-primary group-hover:bg-primary/10 transition-all"
-                                                        onClick={(e) => { e.stopPropagation(); handleViewFile(b.fileUrl); }}
+                                                        onClick={(e) => { e.stopPropagation(); !detailLoading && handleViewFile(b.fileUrl); }}
                                                     >
-                                                        <Eye className="w-3.5 h-3.5" />
+                                                        {detailLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Eye className="w-3.5 h-3.5" />}
                                                     </Button>
                                                 </div>
                                             ))}
@@ -471,27 +476,30 @@ export default function AdminAgamaVerifikasiPage() {
                                     <div className="space-y-2 pt-4 border-t border-slate-200">
                                         <Button
                                             onClick={() => handleStatusUpdate("Disetujui")}
-                                            disabled={verifLoading}
+                                            disabled={verifLoading || detailLoading}
                                             className="w-full bg-emerald-600 hover:bg-emerald-700 font-bold h-10 shadow-sm shadow-emerald-200"
                                         >
-                                            <Check className="w-4 h-4 mr-2" /> SETUJUI PENGAJUAN
+                                            {verifLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Check className="w-4 h-4 mr-2" />}
+                                            {verifLoading ? 'MEMPROSES...' : 'SETUJUI PENGAJUAN'}
                                         </Button>
                                         <div className="grid grid-cols-2 gap-2">
                                             <Button
                                                 variant="outline"
                                                 onClick={() => handleStatusUpdate("Revisi")}
-                                                disabled={verifLoading}
+                                                disabled={verifLoading || detailLoading}
                                                 className="border-orange-200 text-orange-600 hover:bg-orange-50 font-bold"
                                             >
-                                                <AlertCircle className="w-4 h-4 mr-2" /> REVISI
+                                                {verifLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <AlertCircle className="w-4 h-4 mr-2" />}
+                                                REVISI
                                             </Button>
                                             <Button
                                                 variant="outline"
                                                 onClick={() => handleStatusUpdate("Ditolak")}
-                                                disabled={verifLoading}
+                                                disabled={verifLoading || detailLoading}
                                                 className="border-red-200 text-red-600 hover:bg-red-50 font-bold"
                                             >
-                                                <X className="w-4 h-4 mr-2" /> TOLAK
+                                                {verifLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <X className="w-4 h-4 mr-2" />}
+                                                TOLAK
                                             </Button>
                                         </div>
                                     </div>
