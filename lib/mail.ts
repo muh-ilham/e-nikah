@@ -127,13 +127,16 @@ export function getOrderApprovalTemplate(
     noRegistrasi: string,
     profilDetail: { pangkat?: string, satuan?: string, nrp?: string },
     jadwalKedatangan?: string,
-    catatanAdmin?: string
+    catatanAdmin?: string,
+    jenis: string = "NIKAH"
 ) {
+    const jenisFormat = jenis.charAt(0).toUpperCase() + jenis.slice(1).toLowerCase();
+
     return `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <h2 style="color: #1a365d; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Pengajuan Nikah Disetujui</h2>
+            <h2 style="color: #1a365d; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Pengajuan ${jenisFormat} Disetujui</h2>
             <p>Halo <strong>${profilDetail.pangkat || ''} ${name}</strong> ${profilDetail.nrp ? `(NRP: ${profilDetail.nrp})` : ''},</p>
-            <p>Kami informasikan bahwa pengajuan nikah Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> telah <strong>DISETUJUI</strong> oleh Admin.</p>
+            <p>Kami informasikan bahwa pengajuan ${jenisFormat.toLowerCase()} Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> telah <strong>DISETUJUI</strong> oleh Admin.</p>
             
             <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 0 0 5px 0; font-size: 14px; font-weight: bold;">Detail Pemohon:</p>
@@ -176,12 +179,14 @@ export function getOrderApprovalTemplate(
 /**
  * Template email untuk pengajuan nikah yang direvisi
  */
-export function getOrderRevisionTemplate(name: string, noRegistrasi: string, catatanAdmin: string) {
+export function getOrderRevisionTemplate(name: string, noRegistrasi: string, catatanAdmin: string, jenis: string = "NIKAH") {
+    const jenisFormat = jenis.charAt(0).toUpperCase() + jenis.slice(1).toLowerCase();
+
     return `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <h2 style="color: #b45309; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Pengajuan Nikah Perlu Direvisi</h2>
+            <h2 style="color: #b45309; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Pengajuan ${jenisFormat} Perlu Direvisi</h2>
             <p>Halo <strong>${name}</strong>,</p>
-            <p>Kami informasikan bahwa pengajuan nikah Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> memerlukan <strong>REVISI</strong> atau perbaikan data berkas.</p>
+            <p>Kami informasikan bahwa pengajuan ${jenisFormat.toLowerCase()} Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> memerlukan <strong>REVISI</strong> atau perbaikan data berkas.</p>
             
             <div style="background-color: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 0 0 5px 0; font-size: 12px; color: #b45309; font-weight: bold; text-transform: uppercase;">Catatan Revisi dari Admin:</p>
@@ -205,12 +210,14 @@ export function getOrderRevisionTemplate(name: string, noRegistrasi: string, cat
 /**
  * Template email untuk pengajuan nikah yang ditolak
  */
-export function getOrderRejectionTemplate(name: string, noRegistrasi: string, catatanAdmin: string) {
+export function getOrderRejectionTemplate(name: string, noRegistrasi: string, catatanAdmin: string, jenis: string = "NIKAH") {
+    const jenisFormat = jenis.charAt(0).toUpperCase() + jenis.slice(1).toLowerCase();
+
     return `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <h2 style="color: #dc2626; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Status Pengajuan Nikah: DITOLAK</h2>
+            <h2 style="color: #dc2626; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Status Pengajuan ${jenisFormat}: DITOLAK</h2>
             <p>Halo <strong>${name}</strong>,</p>
-            <p>Mohon maaf, kami informasikan bahwa pengajuan nikah Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> telah <strong>DITOLAK</strong> oleh Admin/Verifikator.</p>
+            <p>Mohon maaf, kami informasikan bahwa pengajuan ${jenisFormat.toLowerCase()} Anda dengan nomor registrasi <strong>${noRegistrasi}</strong> telah <strong>DITOLAK</strong> oleh Admin/Verifikator.</p>
             
             <div style="background-color: #fef2f2; border: 1px solid #fecaca; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 0 0 5px 0; font-size: 12px; color: #b91c1c; font-weight: bold; text-transform: uppercase;">Alasan Penolakan:</p>

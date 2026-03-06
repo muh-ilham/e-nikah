@@ -68,25 +68,31 @@ export async function PUT(
                         updatedPengajuan.noRegistrasi,
                         profilDetail,
                         jadwalStr,
-                        updatedPengajuan.catatanAdmin || ''
+                        updatedPengajuan.catatanAdmin || '',
+                        updatedPengajuan.jenisPengajuan || 'NIKAH'
                     );
-                    emailSubject = `Pengajuan Nikah Disetujui - ${updatedPengajuan.noRegistrasi}`;
+                    const jenisStr = updatedPengajuan.jenisPengajuan ? updatedPengajuan.jenisPengajuan.charAt(0).toUpperCase() + updatedPengajuan.jenisPengajuan.slice(1).toLowerCase() : 'Nikah';
+                    emailSubject = `Pengajuan ${jenisStr} Disetujui - ${updatedPengajuan.noRegistrasi}`;
 
                 } else if (status === 'Revisi') {
                     emailHtml = getOrderRevisionTemplate(
                         updatedPengajuan.user.name,
                         updatedPengajuan.noRegistrasi,
-                        updatedPengajuan.catatanAdmin || 'Perlu perbaikan berkas'
+                        updatedPengajuan.catatanAdmin || 'Perlu perbaikan berkas',
+                        updatedPengajuan.jenisPengajuan || 'NIKAH'
                     );
-                    emailSubject = `Pengajuan Nikah Perlu Direvisi - ${updatedPengajuan.noRegistrasi}`;
+                    const jenisStr = updatedPengajuan.jenisPengajuan ? updatedPengajuan.jenisPengajuan.charAt(0).toUpperCase() + updatedPengajuan.jenisPengajuan.slice(1).toLowerCase() : 'Nikah';
+                    emailSubject = `Pengajuan ${jenisStr} Perlu Direvisi - ${updatedPengajuan.noRegistrasi}`;
 
                 } else if (status === 'Ditolak') {
                     emailHtml = getOrderRejectionTemplate(
                         updatedPengajuan.user.name,
                         updatedPengajuan.noRegistrasi,
-                        updatedPengajuan.catatanAdmin || 'Tidak memenuhi syarat'
+                        updatedPengajuan.catatanAdmin || 'Tidak memenuhi syarat',
+                        updatedPengajuan.jenisPengajuan || 'NIKAH'
                     );
-                    emailSubject = `Pengajuan Nikah Ditolak - ${updatedPengajuan.noRegistrasi}`;
+                    const jenisStr = updatedPengajuan.jenisPengajuan ? updatedPengajuan.jenisPengajuan.charAt(0).toUpperCase() + updatedPengajuan.jenisPengajuan.slice(1).toLowerCase() : 'Nikah';
+                    emailSubject = `Pengajuan ${jenisStr} Ditolak - ${updatedPengajuan.noRegistrasi}`;
                 }
 
                 if (emailHtml) {
