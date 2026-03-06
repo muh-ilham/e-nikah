@@ -36,6 +36,7 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const yearParam = searchParams.get("year");
         const year = yearParam ? parseInt(yearParam) : new Date().getFullYear();
+        const agama = searchParams.get("agama");
 
         // Ambil semua pengajuan di tahun yang diminta
         // Kita juga bisa hanya memfilter yang disetujui, tapi laporan biasanya menampilkan semua, atau yang ada tglPengajuan-nya.
@@ -45,13 +46,19 @@ export async function GET(request: Request) {
         const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
         const endDate = new Date(`${year}-12-31T23:59:59.999Z`);
 
+        const whereClause: any = {
+            tglPengajuan: {
+                gte: startDate,
+                lte: endDate,
+            }
+        };
+
+        if (agama && agama !== "All") {
+            whereClause.agama = agama;
+        }
+
         const pengajuanList = await prisma.pengajuanNikah.findMany({
-            where: {
-                tglPengajuan: {
-                    gte: startDate,
-                    lte: endDate,
-                }
-            },
+            where: whereClause,
             select: {
                 tglPengajuan: true,
                 jenisPengajuan: true,

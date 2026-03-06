@@ -102,6 +102,7 @@ const Sidebar = ({ role, agamaLabel, onItemClick }: SidebarProps) => {
                 return [
                     { label: "Beranda", icon: Home as any, href: "/admin-agama/beranda" },
                     { label: "Verifikasi", icon: CheckCircle as any, href: "/admin-agama/verifikasi" },
+                    { label: "Laporan", icon: FileTextIcon as any, href: "/admin-agama/laporan" },
                     { label: "Profil Saya", icon: User as any, href: "/admin-agama/profil" },
                 ];
             default:
