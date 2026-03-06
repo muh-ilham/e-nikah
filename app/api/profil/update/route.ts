@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { promises as fs } from "fs";
-import path from "path";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
     try {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
         const name = formData.get("name") as string;
         const nrp = formData.get("nrp") as string;
         const tempatLahir = formData.get("tempatLahir") as string;
-        const tglLahir = formData.get("tglLahir") as string;
+        const tglLahirStr = formData.get("tglLahir") as string;
         const agama = formData.get("agama") as string;
         const hp = formData.get("hp") as string;
         const pangkatId = formData.get("pangkatId") as string;
@@ -24,22 +24,14 @@ export async function POST(req: Request) {
         const alamat = formData.get("alamat") as string;
         const suku = formData.get("suku") as string;
 
-        // Foto file handling
+        // Foto file handling - Switch to Base64 for Vercel
         const fotoFile = formData.get("foto") as File | null;
         let fotoUrl = null;
 
         if (fotoFile && fotoFile.size > 0) {
             const bytes = await fotoFile.arrayBuffer();
             const buffer = Buffer.from(bytes);
-
-            const uploadDir = path.join(process.cwd(), "public", "uploads", "profil");
-            await fs.mkdir(uploadDir, { recursive: true });
-
-            const fileName = `profil-${userId}-${Date.now()}${path.extname(fotoFile.name)}`;
-            const filePath = path.join(uploadDir, fileName);
-
-            await fs.writeFile(filePath, buffer);
-            fotoUrl = `/uploads/profil/${fileName}`;
+            fotoUrl = `data:${fotoFile.type};base64,${buffer.toString('base64')}`;
         }
 
         // Update User records mapping
@@ -52,9 +44,11 @@ export async function POST(req: Request) {
         });
 
         // Insert or Update ProfilPrajurit
+        const tglLahir = tglLahirStr ? new Date(tglLahirStr) : null;
+
         const profilParams: any = {
             tempatLahir: tempatLahir || null,
-            tglLahir: tglLahir ? new Date(tglLahir) : null,
+            tglLahir: tglLahir && !isNaN(tglLahir.getTime()) ? tglLahir : null,
             agama: agama || null,
             hp: hp || null,
             suku: suku || null,
