@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { promises as fs } from "fs";
-import path from "path";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
     try {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "User tidak ditemukan" }, { status: 404 });
         }
 
-        const agamaPrajurit = user.profilPrajurit?.agama || "Islam"; // Default or fallback
+        const agamaPrajurit = user.profilPrajurit?.agama || "Islam";
 
         const pengajuanId = formData.get("pengajuanId") as string; // Optional for revision
 
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
             const existingActive = await prisma.pengajuanNikah.findFirst({
                 where: {
                     userId,
-                    status: { in: ["Menunggu", "Diperiksa"] } // "Revisi" dibolehkan jika via mode update
+                    status: { in: ["Menunggu", "Diperiksa"] }
                 }
             });
 
@@ -95,76 +95,55 @@ export async function POST(request: Request) {
             });
         }
 
-        // --- 3. Handle File Uploads dinamis berdasarkan Master Berkas ---
+        // --- 3. Handle File Uploads dinamis berdasarkan Master Berkas (Base64 for Vercel) ---
         const masterBerkas = await prisma.masterBerkas.findMany({ where: { aktif: true } });
 
-        const uploadDir = path.join(process.cwd(), "public", "uploads", "pengajuan", pengajuan.id);
-        await fs.mkdir(uploadDir, { recursive: true });
-
-        const berkasPromises = masterBerkas.map(async (berkas) => {
+        for (const berkas of masterBerkas) {
             const file = formData.get(`file_${berkas.id}`) as File | null;
 
             if (file && file.size > 0) {
-                const bytes = await file.arrayBuffer();
-                const buffer = Buffer.from(bytes);
+                try {
+                    const bytes = await file.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
+                    const fileBase64 = `data:${file.type || 'application/pdf'};base64,${buffer.toString('base64')}`;
 
-                const fileName = `${berkas.nama.replace(/[^a-zA-Z0-9]/g, "_")}-${Date.now()}${path.extname(file.name)}`;
-                const filePath = path.join(uploadDir, fileName);
-
-                // Cek apakah sudah ada berkas lama untuk masterBerkas ini di pengajuan ini
-                const existingBerkas = await prisma.berkasPengajuan.findFirst({
-                    where: {
-                        pengajuanId: pengajuan.id,
-                        masterBerkasId: berkas.id
-                    }
-                });
-
-                if (existingBerkas) {
-                    // Hapus file fisik lama jika ada
-                    try {
-                        const oldPath = path.join(process.cwd(), "public", existingBerkas.fileUrl);
-                        if (await fs.stat(oldPath).catch(() => null)) {
-                            await fs.unlink(oldPath);
-                        }
-                    } catch (e) {
-                        console.error("Gagal hapus file lama", e);
-                    }
-
-                    // Update record
-                    await fs.writeFile(filePath, buffer);
-                    const fileUrl = `/uploads/pengajuan/${pengajuan.id}/${fileName}`;
-
-                    return prisma.berkasPengajuan.update({
-                        where: { id: existingBerkas.id },
-                        data: {
-                            fileUrl,
-                            status: "Pending" // Reset status ke Pending agar diperiksa ulang
-                        }
-                    });
-                } else {
-                    // Create new
-                    await fs.writeFile(filePath, buffer);
-                    const fileUrl = `/uploads/pengajuan/${pengajuan.id}/${fileName}`;
-
-                    return prisma.berkasPengajuan.create({
-                        data: {
+                    // Cek apakah sudah ada berkas lama untuk masterBerkas ini di pengajuan ini
+                    const existingBerkas = await prisma.berkasPengajuan.findFirst({
+                        where: {
                             pengajuanId: pengajuan.id,
-                            masterBerkasId: berkas.id,
-                            fileUrl,
-                            status: "Pending"
+                            masterBerkasId: berkas.id
                         }
                     });
+
+                    if (existingBerkas) {
+                        await prisma.berkasPengajuan.update({
+                            where: { id: existingBerkas.id },
+                            data: {
+                                fileUrl: fileBase64,
+                                status: "Pending" // Reset status ke Pending agar diperiksa ulang
+                            }
+                        });
+                    } else {
+                        await prisma.berkasPengajuan.create({
+                            data: {
+                                pengajuanId: pengajuan.id,
+                                masterBerkasId: berkas.id,
+                                fileUrl: fileBase64,
+                                status: "Pending"
+                            }
+                        });
+                    }
+                } catch (err) {
+                    console.error(`Gagal memproses berkas ${berkas.nama}:`, err);
+                    // Lanjutkan ke berkas berikutnya daripada gagal total
                 }
             }
-        });
-
-        // Tunggu semua file tersimpan ke DB
-        await Promise.all(berkasPromises);
+        }
 
         return NextResponse.json({ success: true, pengajuan });
     } catch (error: any) {
-        console.error("Error creating pengajuan:", error);
-        return NextResponse.json({ error: "Terjadi kesalahan sistem saat memproses pengajuan" }, { status: 500 });
+        console.error("Error processing pengajuan:", error);
+        return NextResponse.json({ error: error?.message || "Terjadi kesalahan sistem saat memproses pengajuan" }, { status: 500 });
     }
 }
 
@@ -200,36 +179,45 @@ export async function GET(request: Request) {
             }
         };
 
-        if (id) {
-            const pengajuan = await prisma.pengajuanNikah.findUnique({
-                where: { id },
-                include: includeData
-            });
-
-            // Authorization check
-            if (pengajuan && pengajuan.userId !== userId) {
-                return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-            }
-
-            return NextResponse.json({ pengajuan });
-        }
-
+        let data;
         if (list) {
-            const pengajuan = await prisma.pengajuanNikah.findMany({
+            data = await prisma.pengajuanNikah.findMany({
                 where: { userId },
                 orderBy: { createdAt: 'desc' },
                 include: includeData
             });
-            return NextResponse.json({ pengajuan });
+        } else if (id) {
+            data = await prisma.pengajuanNikah.findUnique({
+                where: { id },
+                include: includeData
+            });
+            // Authorization check
+            if (data && data.userId !== userId) {
+                return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+            }
+            return NextResponse.json({ pengajuan: data });
+        } else {
+            data = await prisma.pengajuanNikah.findFirst({
+                where: { userId },
+                orderBy: { createdAt: 'desc' },
+                include: includeData
+            });
         }
 
-        const pengajuan = await prisma.pengajuanNikah.findFirst({
-            where: { userId },
-            orderBy: { createdAt: 'desc' }, // Ambil yang paling baru
-            include: includeData
-        });
+        // Strip fileUrl for list/first responses
+        const finalizeData = (item: any) => {
+            if (!item) return null;
+            return {
+                ...item,
+                berkas: item.berkas?.map((b: any) => ({ ...b, fileUrl: "" })) || []
+            };
+        };
 
-        return NextResponse.json({ pengajuan });
+        if (list) {
+            return NextResponse.json({ pengajuan: (data as any[])?.map(finalizeData) || [] });
+        } else {
+            return NextResponse.json({ pengajuan: finalizeData(data) });
+        }
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

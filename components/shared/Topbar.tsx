@@ -38,7 +38,7 @@ const Topbar = ({ title, role, agamaLabel }: TopbarProps) => {
             try {
                 const userData = JSON.parse(storedUser);
                 // Ambil data profil terbaru
-                fetch(`/api/profil/me?userId=${userData.id}`)
+                fetch(`/api/profil/me?userId=${userData.id}&t=${Date.now()}`, { cache: 'no-store' })
                     .then(res => res.json())
                     .then(data => {
                         if (!data.error) {

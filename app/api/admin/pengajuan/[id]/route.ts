@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+export const dynamic = "force-dynamic";
 import { sendEmail, getOrderApprovalTemplate, getOrderRevisionTemplate, getOrderRejectionTemplate } from "@/lib/mail";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";

@@ -69,7 +69,7 @@ export default function VerifikasiPage() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const res = await fetch("/api/admin/pengajuan");
+            const res = await fetch(`/api/admin/pengajuan?t=${Date.now()}`, { cache: 'no-store' });
             const result = await res.json();
             if (res.ok) {
                 setData(result);
@@ -91,14 +91,25 @@ export default function VerifikasiPage() {
         setCurrentPage(1);
     }, [searchQuery, filterConfig, sortConfig]);
 
-    const handleOpenDetail = (item: any) => {
+    const handleOpenDetail = async (item: any) => {
         setSelectedItem(item);
-        setVerifData({
-            status: item.status,
-            catatanAdmin: item.catatanAdmin || "",
-            jadwalKedatangan: item.jadwalKedatangan ? format(new Date(item.jadwalKedatangan), "yyyy-MM-dd'T'HH:mm") : ""
-        });
         setIsDetailOpen(true);
+        // Fetch full data (including Base64) to avoid large payload in list
+        try {
+            const res = await fetch(`/api/admin/pengajuan/${item.id}?t=${Date.now()}`);
+            if (res.ok) {
+                const fullData = await res.json();
+                setSelectedItem(fullData);
+                setVerifData({
+                    status: fullData.status,
+                    catatanAdmin: fullData.catatanAdmin || "",
+                    jadwalKedatangan: fullData.jadwalKedatangan ? format(new Date(fullData.jadwalKedatangan), "yyyy-MM-dd'T'HH:mm") : ""
+                });
+            }
+        } catch (error) {
+            console.error("Fetch detail error:", error);
+            toast.error("Gagal mengambil detail berkas");
+        }
     };
 
     const handleStatusUpdate = async (newStatus: string) => {
