@@ -70,7 +70,18 @@ export async function GET(
             default:
                 return NextResponse.json({ error: "Tipe master data tidak valid" }, { status: 400 });
         }
-        return NextResponse.json({ data, total, page, limit });
+        return NextResponse.json({
+            data,
+            total,
+            page,
+            limit,
+            debug: {
+                type,
+                where,
+                foundCount: data?.length || 0,
+                dbUrlSet: !!process.env.DATABASE_URL
+            }
+        });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
