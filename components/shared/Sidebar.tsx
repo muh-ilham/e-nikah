@@ -36,7 +36,7 @@ const Sidebar = ({ role, agamaLabel, onItemClick }: SidebarProps) => {
 
     useEffect(() => {
         const loadSettings = () => {
-            fetch("/api/identitas-instansi")
+            fetch("/api/identitas-instansi?t=" + Date.now(), { cache: 'no-store' })
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.error) {
