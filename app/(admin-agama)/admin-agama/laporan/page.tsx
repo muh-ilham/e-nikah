@@ -6,20 +6,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Download, Search, Heart, HeartOff } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
 
 export default function LaporanAdminAgamaPage() {
-    const { data: session } = useSession();
     const [adminAgama, setAdminAgama] = useState<string>("");
     const [year, setYear] = useState<string>(new Date().getFullYear().toString());
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (session?.user?.role === 'ADMIN_AGAMA') {
-            setAdminAgama(session.user.agama || "");
+        const storedUser = localStorage.getItem("user_admin_agama");
+        if (storedUser) {
+            try {
+                const userData = JSON.parse(storedUser);
+                if (userData.agamaId) {
+                    setAdminAgama(userData.agamaId);
+                }
+            } catch (e) {
+                console.error("Failed to parse user data", e);
+            }
         }
-    }, [session]);
+    }, []);
 
     const fetchLaporan = async (selectedYear: string, agama: string) => {
         setLoading(true);
@@ -241,19 +247,21 @@ export default function LaporanAdminAgamaPage() {
             </Card>
 
             {/* Print Styles Configuration */}
-            <style jsx global>{\`
+            {/* Print Styles Configuration */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 @media print {
                     @page {size: landscape; margin: 1cm; }
-                body {background - color: white !important; }
-                .print\\\\:hidden {display: none !important; }
-                .print\\\\:bg-white {background - color: white !important; }
-                .print\\\\:bg-transparent {background - color: transparent !important; }
-                .print\\\\:border-none {border: none !important; }
-                .print\\\\:shadow-none {box - shadow: none !important; }
-                .print\\\\:overflow-visible {overflow: visible !important; }
-                .print\\\\:p-0 {padding: 0 !important; }
+                    body {background-color: white !important; }
+                    .print\\hidden {display: none !important; }
+                    .print\\bg-white {background-color: white !important; }
+                    .print\\bg-transparent {background-color: transparent !important; }
+                    .print\\border-none {border: none !important; }
+                    .print\\shadow-none {box-shadow: none !important; }
+                    .print\\overflow-visible {overflow: visible !important; }
+                    .print\\p-0 {padding: 0 !important; }
                 }
-            \`}</style>
+            `}} />
         </div>
     );
 }
