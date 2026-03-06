@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+    Filter,
+    ArrowUpDown,
     CheckCircle,
     Search,
     Eye,
@@ -20,7 +22,9 @@ import {
     Download,
     Shield,
     Heart,
-    User
+    User,
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -43,6 +47,14 @@ export default function AdminAgamaVerifikasiPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [adminAgama, setAdminAgama] = useState<string>("");
+
+    // Sort & Filter State
+    const [sortConfig, setSortConfig] = useState({ key: "tglPengajuan", direction: "desc" });
+    const [filterConfig, setFilterConfig] = useState({ status: "All", agama: "All" });
+
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     // Detail / Modal State
     const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -187,103 +199,278 @@ export default function AdminAgamaVerifikasiPage() {
         "Revisi": "bg-orange-100 text-orange-700 border-orange-200",
     };
 
-    const filteredData = pengajuan.filter(p =>
-        p.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        p.noRegistrasi?.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredData = pengajuan.filter(item => {
+        // Search query
+        const matchesSearch =
+            item.noRegistrasi?.toLowerCase().includes(search.toLowerCase()) ||
+            item.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item.user?.nrp?.toLowerCase().includes(search.toLowerCase());
+
+        // Filter Status
+        const matchesStatus = filterConfig.status === "All" || item.status === filterConfig.status;
+
+        // Filter Agama
+        const matchesAgama = filterConfig.agama === "All" || item.agama === filterConfig.agama || (adminAgama && adminAgama === filterConfig.agama);
+
+        return matchesSearch && matchesStatus && matchesAgama;
+    }).sort((a, b) => {
+        if (!sortConfig.key) return 0;
+
+        let aValue, bValue;
+        if (sortConfig.key === "name") {
+            aValue = a.user?.name;
+            bValue = b.user?.name;
+        } else if (sortConfig.key === "satuan") {
+            aValue = a.user?.profilPrajurit?.satuan?.nama || "";
+            bValue = b.user?.profilPrajurit?.satuan?.nama || "";
+        } else {
+            aValue = a[sortConfig.key];
+            bValue = b[sortConfig.key];
+        }
+
+        if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+        if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+    });
+
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handleSort = (key: string) => {
+        setSortConfig(prev => ({
+            key,
+            direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc"
+        }));
+    };
+
+    // Reset pagination when filter/search/sort changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search, filterConfig, sortConfig]);
 
     return (
         <div className="space-y-6 animate-in fade-in duration-700">
-            <div>
-                <h2 className="text-2xl font-heading font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                    <ClipboardCheck className="w-6 h-6 text-primary" />
-                    Daftar Verifikasi Agama
-                </h2>
-                <p className="text-sm text-slate-500 font-medium italic">Antrian pemeriksaan berkas khusus agama {adminAgama || 'Semua'}</p>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl font-heading font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                        <ClipboardCheck className="w-6 h-6 text-primary" />
+                        Daftar Verifikasi Agama
+                    </h2>
+                    <p className="text-sm text-slate-500 font-medium italic">Antrian pemeriksaan berkas khusus agama {adminAgama || 'Semua'}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" className="text-[10px] font-bold h-9 border-slate-200">
+                                <ArrowUpDown className="w-3.5 h-3.5 mr-2" />
+                                {sortConfig.direction === 'asc' ? 'URUTKAN: A-Z' : 'URUTKAN: Z-A'}
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-xs">
+                            <DialogHeader>
+                                <DialogTitle className="text-sm font-bold">Urutkan Data</DialogTitle>
+                            </DialogHeader>
+                            <div className="grid grid-cols-1 gap-2">
+                                <Button variant={sortConfig.key === 'tglPengajuan' ? 'default' : 'outline'} className="text-xs justify-start" onClick={() => handleSort('tglPengajuan')}>Tanggal Pengajuan</Button>
+                                <Button variant={sortConfig.key === 'noRegistrasi' ? 'default' : 'outline'} className="text-xs justify-start" onClick={() => handleSort('noRegistrasi')}>No. Registrasi</Button>
+                                <Button variant={sortConfig.key === 'name' ? 'default' : 'outline'} className="text-xs justify-start" onClick={() => handleSort('name')}>Nama Prajurit</Button>
+                                <Button variant={sortConfig.key === 'satuan' ? 'default' : 'outline'} className="text-xs justify-start" onClick={() => handleSort('satuan')}>Satuan</Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className="bg-primary text-[10px] font-bold h-9 gap-2">
+                                <Filter className="w-3.5 h-3.5" />
+                                {filterConfig.status !== 'All' ? 'FILTER AKTIF' : 'FILTER LANJUTAN'}
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-xs">
+                            <DialogHeader>
+                                <DialogTitle className="text-sm font-bold">Filter Lanjutan</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-bold uppercase text-slate-400">Status</Label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {["All", "Menunggu", "Diperiksa", "Disetujui", "Ditolak", "Revisi"].map(s => (
+                                            <Button
+                                                key={s}
+                                                variant={filterConfig.status === s ? "default" : "outline"}
+                                                className="text-[10px] h-7"
+                                                onClick={() => setFilterConfig(prev => ({ ...prev, status: s }))}
+                                            >
+                                                {s}
+                                            </Button>
+                                        ))}
+                                    </div>
+                                </div>
+                                {!adminAgama && (
+                                    <div className="space-y-2">
+                                        <Label className="text-[10px] font-bold uppercase text-slate-400">Agama</Label>
+                                        <div className="flex flex-wrap gap-2">
+                                            {["All", "ISLAM", "PROTESTAN", "KATOLIK", "HINDU", "BUDHA", "KHONGHUCU"].map(a => (
+                                                <Button
+                                                    key={a}
+                                                    variant={filterConfig.agama === a ? "default" : "outline"}
+                                                    className="text-[10px] h-7"
+                                                    onClick={() => setFilterConfig(prev => ({ ...prev, agama: a }))}
+                                                >
+                                                    {a}
+                                                </Button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <Button variant="ghost" className="w-full text-xs text-red-500 font-bold h-8" onClick={() => setFilterConfig({ status: "All", agama: "All" })}>RESET FILTER</Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
 
-            <Card className="border-slate-200/60 shadow-sm">
-                <CardHeader className="bg-slate-50 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
-                    <div className="relative max-w-xs w-full">
+            <Card className="border-slate-200/60 shadow-sm overflow-hidden">
+                <CardHeader className="bg-slate-50 border-b border-slate-100 py-4">
+                    <div className="relative max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <Input
-                            placeholder="Cari nama atau No. Reg..."
+                            placeholder="Cari No. Registrasi, Nama atau NRP..."
+                            className="pl-9 bg-white border-slate-200 text-xs font-bold h-10"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 bg-white border-slate-200 text-xs font-bold h-9"
                         />
                     </div>
-                    {adminAgama && (
-                        <Badge variant="outline" className="border-primary text-primary font-bold text-[10px] px-3 bg-primary/5 uppercase">
-                            LINGKUP AGAMA: {adminAgama}
-                        </Badge>
-                    )}
                 </CardHeader>
                 <CardContent className="p-0">
-                    {isLoading ? (
-                        <div className="p-20 flex flex-col items-center justify-center gap-3">
-                            <Loader2 className="w-8 h-8 animate-spin text-primary/30" />
-                            <p className="text-xs text-slate-400 font-medium animate-pulse">Memuat data pengajuan...</p>
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left text-xs">
-                                <thead className="bg-slate-50/50 text-[10px] uppercase text-slate-500 font-bold border-b border-slate-100">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                            <thead className="bg-slate-50/50 text-[10px] uppercase text-slate-500 font-bold border-b border-slate-100">
+                                <tr>
+                                    <th className="py-4 px-6">ID REGISTRASI</th>
+                                    <th className="py-4 px-6">NAMA PRAJURIT</th>
+                                    <th className="py-4 px-6">SATUAN</th>
+                                    <th className="py-4 px-6">JENIS</th>
+                                    <th className="py-4 px-6">AGAMA</th>
+                                    <th className="py-4 px-6">TANGGAL</th>
+                                    <th className="py-4 px-6">STATUS</th>
+                                    <th className="py-4 px-6 text-right">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                                {isLoading ? (
                                     <tr>
-                                        <th className="py-4 px-6 text-slate-400">#</th>
-                                        <th className="py-4 px-6">ID REG</th>
-                                        <th className="py-4 px-6">NAMA PRAJURIT</th>
-                                        <th className="py-4 px-6">TGL PENGAJUAN</th>
-                                        <th className="py-4 px-6">STATUS</th>
-                                        <th className="py-4 px-6 text-right">AKSI</th>
+                                        <td colSpan={8} className="py-12 text-center">
+                                            <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary/30" />
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {filteredData.map((row, idx) => (
-                                        <tr key={row.id} className="hover:bg-slate-50/50 transition-colors group">
-                                            <td className="py-4 px-6 text-slate-300 font-medium">{idx + 1}</td>
-                                            <td className="py-4 px-6 font-black text-slate-900 tracking-tighter">{row.noRegistrasi}</td>
-                                            <td className="py-4 px-6">
-                                                <div className="flex flex-col">
-                                                    <span className="font-bold text-slate-800 uppercase group-hover:text-primary transition-colors">{row.user?.name}</span>
-                                                    <span className="text-[10px] text-slate-400 font-medium">{row.user?.profilPrajurit?.pangkat?.nama || '-'}</span>
-                                                </div>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <div className="flex items-center gap-1.5 text-slate-500 font-medium">
-                                                    <Calendar className="w-3 h-3 text-slate-400" />
-                                                    {format(new Date(row.tglPengajuan), "dd MMM yyyy", { locale: localeId })}
-                                                </div>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <Badge
-                                                    className={cn(
-                                                        "text-[9px] font-black px-2 py-0.5 border shadow-none uppercase",
-                                                        STATUS_STYLE[row.status] || "bg-amber-50 text-amber-600 border-amber-100"
-                                                    )}
+                                ) : filteredData.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={8} className="py-12 text-center text-slate-400 italic">
+                                            Tidak ada data antrian verifikasi.
+                                        </td>
+                                    </tr>
+                                ) : paginatedData.map((row) => (
+                                    <tr key={row.id} className="hover:bg-slate-50 transition-colors group">
+                                        <td className="py-4 px-6 font-bold text-slate-900">{row.noRegistrasi}</td>
+                                        <td className="py-4 px-6">
+                                            <div className="font-bold text-slate-700">{row.user?.name}</div>
+                                            <div className="text-[10px] text-slate-400">NRP: {row.user?.nrp}</div>
+                                        </td>
+                                        <td className="py-4 px-6 text-slate-500 font-medium whitespace-nowrap">
+                                            {row.user?.profilPrajurit?.satuan?.nama || row.user?.profilPrajurit?.satuanId || "-"}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <Badge variant="outline" className={`text-[9px] font-bold border-0 px-2 py-0.5 ${row.jenisPengajuan === 'NIKAH' ? 'bg-rose-50 text-rose-600' :
+                                                row.jenisPengajuan === 'CERAI' ? 'bg-red-50 text-red-600' :
+                                                    row.jenisPengajuan === 'TALAK' ? 'bg-amber-50 text-amber-600' :
+                                                        'bg-emerald-50 text-emerald-600'
+                                                }`}>
+                                                {row.jenisPengajuan || "NIKAH"}
+                                            </Badge>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <Badge variant="outline" className="text-[9px] font-bold border-slate-200 text-slate-600 uppercase">
+                                                {row.agama || adminAgama || "-"}
+                                            </Badge>
+                                        </td>
+                                        <td className="py-4 px-6 text-slate-500 font-medium">
+                                            {format(new Date(row.tglPengajuan), "dd MMM yyyy", { locale: localeId })}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <Badge className={cn("text-[9px] font-extrabold px-2 py-0.5 border shadow-none", STATUS_STYLE[row.status] || "bg-amber-50 text-amber-600 border-amber-100")}>
+                                                {row.status?.toUpperCase()}
+                                            </Badge>
+                                        </td>
+                                        <td className="py-4 px-6 text-right">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleOpenDetail(row)}
+                                                className="h-8 w-8 p-0 rounded-full hover:bg-primary/10 text-primary transition-all"
+                                            >
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Pagination Controls */}
+                    {!isLoading && filteredData.length > 0 && (
+                        <div className="p-4 border-t border-slate-100 flex items-center justify-between bg-white">
+                            <div className="text-xs text-slate-500 font-medium whitespace-nowrap">
+                                Menampilkan <span className="font-bold text-slate-900">{(currentPage - 1) * itemsPerPage + 1}</span> - <span className="font-bold text-slate-900">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> dari <span className="font-bold text-slate-900">{filteredData.length}</span> data
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    className="h-8 px-2 text-[10px] font-bold"
+                                >
+                                    <ChevronLeft className="w-4 h-4 mr-1" /> Prev
+                                </Button>
+
+                                <div className="hidden sm:flex items-center">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => {
+                                        if (
+                                            page === 1 ||
+                                            page === totalPages ||
+                                            (page >= currentPage - 1 && page <= currentPage + 1)
+                                        ) {
+                                            return (
+                                                <Button
+                                                    key={page}
+                                                    variant={currentPage === page ? "default" : "ghost"}
+                                                    size="sm"
+                                                    onClick={() => setCurrentPage(page)}
+                                                    className={`h-8 w-8 p-0 text-[10px] font-bold ${currentPage === page ? '' : 'text-slate-500'}`}
                                                 >
-                                                    {row.status}
-                                                </Badge>
-                                            </td>
-                                            <td className="py-4 px-6 text-right">
-                                                <Button size="sm" onClick={() => handleOpenDetail(row)} className="h-8 text-[10px] font-bold bg-primary uppercase px-4">
-                                                    Verifikasi
+                                                    {page}
                                                 </Button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {filteredData.length === 0 && (
-                                        <tr>
-                                            <td colSpan={6} className="py-20 text-center">
-                                                <div className="flex flex-col items-center gap-2 opacity-30">
-                                                    <ClipboardCheck className="w-12 h-12" />
-                                                    <p className="text-sm font-bold uppercase tracking-widest italic">Tidak ada antrian verifikasi</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                            );
+                                        }
+                                        if (page === currentPage - 2 || page === currentPage + 2) {
+                                            return <span key={page} className="px-1 text-slate-400 text-xs text-center min-w-[32px]">...</span>;
+                                        }
+                                        return null;
+                                    })}
+                                </div>
+
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages || totalPages === 0}
+                                    className="h-8 px-2 text-[10px] font-bold"
+                                >
+                                    Next <ChevronRight className="w-4 h-4 ml-1" />
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </CardContent>
