@@ -2,26 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+
+
+@layer base {
+  :root {
+    --background: 150 20% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 155 42% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 153 40% 30%;
+    --secondary: 43 81% 46%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 215 16% 95%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 153 40% 95%;
+    --accent-foreground: 155 42% 18%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --success: 142 71% 36%;
+    --success-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 155 42% 18%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 155 42% 8%;
+    --foreground: 0 0% 98%;
+    --card: 155 42% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 155 42% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 155 42% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 153 40% 30%;
+    --secondary: 43 81% 46%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 155 20% 20%;
+    --muted-foreground: 215 16% 65%;
+    --accent: 155 20% 20%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --success: 142 71% 36%;
+    --success-foreground: 0 0% 100%;
+    --border: 155 20% 20%;
+    --input: 155 20% 20%;
+    --ring: 155 42% 18%;
+    --radius: 0.5rem;
   }
 }

@@ -1,0 +1,188 @@
+app/(admin)/admin/master-data/[type]/page.tsx(304,14): error TS2786: 'Dialog' cannot be used as a JSX component.
+  Its type 'FC<DialogProps>' is not a valid JSX element type.
+    Type 'FunctionComponent<DialogProps>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'ReactNode | Promise<ReactNode>' is not assignable to type 'ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/master-data/[type]/page.tsx(305,18): error TS2322: Type '{ children: Element[]; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(307,26): error TS2559: Type '{ children: string[]; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(308,26): error TS2559: Type '{ children: string; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(315,30): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(327,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(340,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(354,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(368,42): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(372,41): error TS2322: Type '{ checked: any; onCheckedChange: (c: any) => void; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(373,59): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/(admin)/admin/master-data/[type]/page.tsx(380,30): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(382,33): error TS2322: Type '{ id: string; checked: any; onCheckedChange: (c: any) => void; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'id' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/master-data/[type]/page.tsx(384,51): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/(admin)/admin/pengaturan/page.tsx(130,14): error TS2786: 'Tabs' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<TabsProps & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<TabsProps & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'import("D:/DATA ILLANK/WEBSITE/E-nikah NEXT.js/node_modules/@types/react/index").ReactNode' is not assignable to type 'React.ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengaturan/page.tsx(131,18): error TS2322: Type '{ children: Element[]; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(132,22): error TS2322: Type '{ children: (string | Element)[]; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(135,22): error TS2322: Type '{ children: (string | Element)[]; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(138,22): error TS2322: Type '{ children: (string | Element)[]; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(141,22): error TS2322: Type '{ children: (string | Element)[]; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(146,18): error TS2322: Type '{ children: Element; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(163,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(181,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(191,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(200,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(210,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(233,18): error TS2322: Type '{ children: Element; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(242,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(246,37): error TS2322: Type '{ checked: boolean; onCheckedChange: (val: any) => void; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(247,55): error TS7006: Parameter 'val' implicitly has an 'any' type.
+app/(admin)/admin/pengaturan/page.tsx(252,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(256,37): error TS2322: Type '{ checked: boolean; onCheckedChange: (val: any) => void; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(257,55): error TS7006: Parameter 'val' implicitly has an 'any' type.
+app/(admin)/admin/pengaturan/page.tsx(262,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(266,37): error TS2322: Type '{ checked: boolean; onCheckedChange: (val: any) => void; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'checked' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(267,55): error TS7006: Parameter 'val' implicitly has an 'any' type.
+app/(admin)/admin/pengaturan/page.tsx(285,18): error TS2322: Type '{ children: Element; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(293,34): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(297,34): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengaturan/page.tsx(307,18): error TS2322: Type '{ children: Element; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(25,10): error TS2440: Import declaration conflicts with local declaration of 'cn'.
+app/(admin)/admin/pengguna/page.tsx(179,46): error TS2322: Type '{ children: Element; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(180,50): error TS2322: Type '{ children: any; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(233,14): error TS2786: 'Dialog' cannot be used as a JSX component.
+  Its type 'FC<DialogProps>' is not a valid JSX element type.
+    Type 'FunctionComponent<DialogProps>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'ReactNode | Promise<ReactNode>' is not assignable to type 'ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(234,18): error TS2322: Type '{ children: any[]; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(236,26): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(255,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(263,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(275,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(277,42): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'FC<SelectProps>' is not a valid JSX element type.
+    Type 'FunctionComponent<SelectProps>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'ReactNode | Promise<ReactNode>' is not assignable to type 'ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(281,46): error TS2559: Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(282,50): error TS2786: 'SelectValue' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'import("D:/DATA ILLANK/WEBSITE/E-nikah NEXT.js/node_modules/@types/react/index").ReactNode' is not assignable to type 'React.ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(284,46): error TS2559: Type '{ children: Element[]; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(300,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(302,42): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'FC<SelectProps>' is not a valid JSX element type.
+    Type 'FunctionComponent<SelectProps>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'ReactNode | Promise<ReactNode>' is not assignable to type 'ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(306,46): error TS2559: Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(307,50): error TS2786: 'SelectValue' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'import("D:/DATA ILLANK/WEBSITE/E-nikah NEXT.js/node_modules/@types/react/index").ReactNode' is not assignable to type 'React.ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(309,46): error TS2559: Type '{ children: Element[]; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(323,34): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(325,38): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'FC<SelectProps>' is not a valid JSX element type.
+    Type 'FunctionComponent<SelectProps>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'ReactNode | Promise<ReactNode>' is not assignable to type 'ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(329,42): error TS2559: Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(330,46): error TS2786: 'SelectValue' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectValueProps & RefAttributes<HTMLSpanElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'import("D:/DATA ILLANK/WEBSITE/E-nikah NEXT.js/node_modules/@types/react/index").ReactNode' is not assignable to type 'React.ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(admin)/admin/pengguna/page.tsx(332,42): error TS2559: Type '{ children: Element[]; }' has no properties in common with type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(346,38): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin)/admin/pengguna/page.tsx(355,34): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(admin-agama)/admin-agama/profil/page.tsx(14,22): error TS2322: Type '{ children: Element; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(admin-agama)/admin-agama/profil/page.tsx(15,26): error TS2322: Type '{ children: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(108,18): error TS2786: 'Tabs' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<TabsProps & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<TabsProps & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'import("D:/DATA ILLANK/WEBSITE/E-nikah NEXT.js/node_modules/@types/react/index").ReactNode' is not assignable to type 'React.ReactNode'.
+        Type 'ReactElement<unknown, string | JSXElementConstructor<any>>' is not assignable to type 'ReactNode'.
+          Property 'children' is missing in type 'ReactElement<unknown, string | JSXElementConstructor<any>>' but required in type 'ReactPortal'.
+app/(auth)/login/page.tsx(109,22): error TS2322: Type '{ children: Element[]; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(110,26): error TS2322: Type '{ children: string; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(116,26): error TS2322: Type '{ children: string; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(124,22): error TS2322: Type '{ children: Element; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(131,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(136,42): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(140,42): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(145,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(163,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(171,38): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(192,22): error TS2322: Type '{ children: Element[]; value: string; className: string; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & RefAttributes<never>'.
+app/(auth)/login/page.tsx(195,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+app/(auth)/login/page.tsx(209,34): error TS2322: Type '{ children: string; htmlFor: string; className: string; }' is not assignable to type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & VariantProps<(props?: ClassProp | undefined) => string> & RefAttributes<never>'.

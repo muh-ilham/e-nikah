@@ -1,0 +1,158 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id             String          @id @default(cuid())
+  nrp            String?         @unique
+  name           String
+  email          String          @unique
+  password       String
+  role           String          @default("prajurit") // prajurit, admin_pusat, admin_agama
+  status         String          @default("pending")  // pending, approved, rejected
+  agamaId        String?         // Jika role admin_agama, referensi ke agama yang dikelola
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  profilPrajurit ProfilPrajurit?
+  pengajuanNikah PengajuanNikah[]
+}
+
+model ProfilPrajurit {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fotoUrl     String?
+  tempatLahir String?
+  tglLahir    DateTime?
+  suku        String?
+  agama       String?
+  hp          String?
+  
+  pangkatId   String?
+  jabatanId   String?
+  satuanId    String?
+  alamat      String?
+
+  pangkat     MasterPangkat? @relation(fields: [pangkatId], references: [id])
+  jabatan     MasterJabatan? @relation(fields: [jabatanId], references: [id])
+  satuan      MasterSatuan?  @relation(fields: [satuanId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MasterPangkat {
+  id        String   @id @default(cuid())
+  nama      String   @unique
+  korps     String?
+  aktif     Boolean  @default(true)
+  profilPrajurit ProfilPrajurit[]
+}
+
+model MasterJabatan {
+  id        String   @id @default(cuid())
+  nama      String   @unique
+  aktif     Boolean  @default(true)
+  profilPrajurit ProfilPrajurit[]
+}
+
+model MasterSatuan {
+  id        String   @id @default(cuid())
+  nama      String   @unique
+  aktif     Boolean  @default(true)
+  profilPrajurit ProfilPrajurit[]
+}
+
+model MasterBerkas {
+  id              String   @id @default(cuid())
+  nama            String
+  wajib           Boolean  @default(true)
+  kategori        String   @default("umum") // umum, prajurit, calon
+  jenisPengajuan  String   @default("NIKAH") // NIKAH, CERAI, TALAK, RUJUK
+  agama           String?  // Islam, Katolik, Protestan, Hindu, Buddha, Khonghucu (optional, if NULL means for all)
+  aktif           Boolean  @default(true)
+  urut            Int      @default(0)
+  berkasPengajuan BerkasPengajuan[]
+}
+
+model PengajuanNikah {
+  id               String   @id @default(cuid())
+  noRegistrasi     String   @unique
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  status           String   @default("Menunggu") // Menunggu, Diperiksa, Disetujui, Ditolak, Revisi
+  jenisPengajuan   String   @default("NIKAH")   // NIKAH, CERAI, TALAK, RUJUK
+  agama            String   // Agama untuk keperluan filter admin agama
+  tglPengajuan     DateTime @default(now())
+  
+  // Data Calon Istri
+  namaCalon        String
+  tempatLahirCalon String
+  tglLahirCalon    DateTime
+  agamaCalon       String
+  pekerjaanCalon   String
+  sukuCalon        String
+  alamatCalon      String
+
+  // Hasil Verifikasi
+  jadwalKedatangan DateTime?
+  catatanAdmin     String?
+  adminVerifikatorId String?
+
+  berkas           BerkasPengajuan[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model BerkasPengajuan {
+  id              String   @id @default(cuid())
+  pengajuanId     String
+  pengajuan       PengajuanNikah @relation(fields: [pengajuanId], references: [id], onDelete: Cascade)
+  
+  masterBerkasId  String
+  masterBerkas    MasterBerkas   @relation(fields: [masterBerkasId], references: [id])
+  
+  fileUrl         String
+  status          String   @default("Pending") // Pending, Valid, Invalid
+  catatan         String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SystemSettings {
+  id            String   @id @default("current")
+  appName       String   @default("E-NIKAH")
+  instansiName  String   @default("DISBINTALAD")
+  satuanInduk   String   @default("Mabes TNI AD")
+  alamatKantor  String   @default("Jl. Veteran No. 5, Jakarta Pusat")
+  logoUrl       String?  // Untuk menyimpan path/base64 logo instansi
+  
+  // Pemberitahuan
+  emailNotif    Boolean  @default(true)
+  browserNotif  Boolean  @default(true)
+  waNotif       Boolean  @default(false)
+
+  // Konfigurasi SMTP (Dinamis)
+  smtpHost      String?
+  smtpPort      Int?     @default(587)
+  smtpUser      String?
+  smtpPass      String?
+  smtpSecure    Boolean? @default(false)
+  smtpFromName  String?  @default("E-NIKAH DISBINTALAD")
+  smtpFromEmail String?  @default("no-reply@e-nikah.mil.id")
+  
+  updatedAt     DateTime @updatedAt
+}

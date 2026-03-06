@@ -1,0 +1,72 @@
+
+> webapp@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+ ⚠ Found lockfile missing swc dependencies, patching...
+npm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: C:\Users\Lenovo\AppData\Local\npm-cache\_logs\2026-03-01T09_20_24_686Z-debug-0.log
+ ⨯ Failed to patch lockfile, please try uninstalling and reinstalling next in this workspace
+TypeError: Cannot read properties of undefined (reading 'os')
+    at fetchPkgInfo (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\node_modules\next\dist\lib\patch-incorrect-lockfile.js:73:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Promise.all (index 5)
+    at async patchIncorrectLockfile (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\node_modules\next\dist\lib\patch-incorrect-lockfile.js:162:26)
+ ⚠ Found lockfile missing swc dependencies, patching...
+npm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: C:\Users\Lenovo\AppData\Local\npm-cache\_logs\2026-03-01T09_20_31_165Z-debug-0.log
+ ⚠ Found lockfile missing swc dependencies, patching...
+npm error code ENOWORKSPACES
+npm error This command does not support workspaces.
+npm error A complete log of this run can be found in: C:\Users\Lenovo\AppData\Local\npm-cache\_logs\2026-03-01T09_20_33_516Z-debug-0.log
+ ⨯ Failed to patch lockfile, please try uninstalling and reinstalling next in this workspace
+TypeError: Cannot read properties of undefined (reading 'os')
+    at fetchPkgInfo (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\node_modules\next\dist\lib\patch-incorrect-lockfile.js:73:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Promise.all (index 7)
+    at async patchIncorrectLockfile (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\node_modules\next\dist\lib\patch-incorrect-lockfile.js:162:26)
+Error: @prisma/client did not initialize yet. Please run "prisma generate" and try to import it again.
+    at new PrismaClient (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\node_modules\.prisma\client\default.js:43:11)
+    at 54648 (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\users\[id]\approve\route.js:1:546)
+    at t (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\webpack-runtime.js:1:142)
+    at t (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\users\[id]\approve\route.js:1:1632)
+    at D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\users\[id]\approve\route.js:1:1665
+    at t.X (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\webpack-runtime.js:1:1270)
+    at D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\users\[id]\approve\route.js:1:1645
+    at Object.<anonymous> (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\users\[id]\approve\route.js:1:1693)
+    at Module._compile (node:internal/modules/cjs/loader:1804:14)
+    at Object..js (node:internal/modules/cjs/loader:1936:10)
+Error: @prisma/client did not initialize yet. Please run "prisma generate" and try to import it again.
+    at new PrismaClient (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\node_modules\.prisma\client\default.js:43:11)
+    at 28235 (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\settings\route.js:1:555)
+    at t (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\webpack-runtime.js:1:142)
+    at a (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\settings\route.js:1:2133)
+    at D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\settings\route.js:1:2166
+    at t.X (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\webpack-runtime.js:1:1270)
+    at D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\settings\route.js:1:2146
+    at Object.<anonymous> (D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\.next\server\app\api\admin\settings\route.js:1:2194)
+    at Module._compile (node:internal/modules/cjs/loader:1804:14)
+    at Object..js (node:internal/modules/cjs/loader:1936:10)
+
+> Build error occurred
+Error: Failed to collect page data for /api/admin/users/[id]/approve
+    at D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp\node_modules\next\dist\build\utils.js:1269:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  type: 'Error'
+}
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp
+npm error workspace webapp@0.1.0
+npm error location D:\DATA ILLANK\WEBSITE\E-nikah NEXT.js\apps\webapp
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next build
