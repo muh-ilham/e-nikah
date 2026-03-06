@@ -112,6 +112,36 @@ export default function VerifikasiPage() {
         }
     };
 
+    const handleViewFile = (fileUrl: string) => {
+        if (!fileUrl) {
+            toast.error("File tidak tersedia");
+            return;
+        }
+
+        try {
+            if (!fileUrl.startsWith('data:')) {
+                window.open(fileUrl, '_blank');
+                return;
+            }
+
+            const arr = fileUrl.split(',');
+            const mime = arr[0].match(/:(.*?);/)?.[1] || 'application/pdf';
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            const blob = new Blob([u8arr], { type: mime });
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 10000); // Cleanup after 10s
+        } catch (error) {
+            console.error("Error viewing file", error);
+            toast.error("Format file tidak valid atau rusak");
+        }
+    };
+
     const handleStatusUpdate = async (newStatus: string) => {
         if (!verifData.catatanAdmin && (newStatus === "Ditolak" || newStatus === "Revisi")) {
             toast.error("Catatan wajib diisi jika ditolak atau revisi!");
@@ -551,21 +581,28 @@ export default function VerifikasiPage() {
                                         </h4>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             {selectedItem.berkas.map((b: any) => (
-                                                <div key={b.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-white group hover:border-primary/30 transition-all">
+                                                <div
+                                                    key={b.id}
+                                                    className="flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-white group hover:border-primary/30 transition-all cursor-pointer"
+                                                    onClick={() => handleViewFile(b.fileUrl)}
+                                                >
                                                     <div className="flex items-center gap-3 overflow-hidden">
-                                                        <div className="w-8 h-8 rounded bg-slate-100 flex items-center justify-center shrink-0">
-                                                            <FileText className="w-4 h-4 text-slate-400" />
+                                                        <div className="w-8 h-8 rounded bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors">
+                                                            <FileText className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
                                                         </div>
                                                         <div className="overflow-hidden">
-                                                            <p className="text-[11px] font-bold text-slate-700 truncate">{b.masterBerkas.nama}</p>
+                                                            <p className="text-[11px] font-bold text-slate-700 truncate group-hover:text-primary transition-colors">{b.masterBerkas.nama}</p>
                                                             <p className="text-[9px] text-emerald-600 font-bold uppercase">{b.status}</p>
                                                         </div>
                                                     </div>
-                                                    <a href={b.fileUrl} target="_blank" rel="noopener noreferrer">
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            <Download className="w-3.5 h-3.5" />
-                                                        </Button>
-                                                    </a>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8 rounded-full text-slate-400 group-hover:text-primary group-hover:bg-primary/10 transition-all"
+                                                        onClick={(e) => { e.stopPropagation(); handleViewFile(b.fileUrl); }}
+                                                    >
+                                                        <Eye className="w-3.5 h-3.5" />
+                                                    </Button>
                                                 </div>
                                             ))}
                                         </div>
