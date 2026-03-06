@@ -79,7 +79,7 @@ export function getAccountApprovalTemplate(name: string) {
             <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 0; font-size: 14px; color: #475569;">Silakan login menggunakan email dan password yang telah Anda daftarkan.</p>
             </div>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/login" 
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://nikah.vercel.app'}/login" 
                style="display: inline-block; background-color: #0f172a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
                LOGIN KE SISTEM
             </a>
@@ -161,7 +161,7 @@ export function getOrderApprovalTemplate(
 
             <p>Silakan login ke dashboard untuk melihat detail atau mencetak berkas langkah selanjutnya.</p>
             
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" 
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://nikah.vercel.app'}/dashboard" 
                style="display: inline-block; background-color: #0f172a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">
                CEK STATUS DI DASHBOARD
             </a>
@@ -190,7 +190,7 @@ export function getOrderRevisionTemplate(name: string, noRegistrasi: string, cat
 
             <p>Mohon segera login ke dashboard dan memperbaiki berkas/dokumen sesuai dengan catatan dari admin agar pengajuan Anda dapat diproses ke tahap selanjutnya.</p>
             
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" 
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://nikah.vercel.app'}/dashboard" 
                style="display: inline-block; background-color: #b45309; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">
                PERBAIKI BERKAS SEKARANG
             </a>
